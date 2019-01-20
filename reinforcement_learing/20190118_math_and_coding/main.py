@@ -9,7 +9,10 @@ License:
 	Python 2.0
 
 Reference:
-	Chapter 9 of R.Sutton's Reinforcement Learning: An Introduction	
+	R.Sutton, 2018, Reinforcement Learning: An Introduction, MIT Press
+
+Note:
+	This code uses semi gradient descent method from Sutton's book in P.203
 """
 
 import numpy
@@ -32,7 +35,7 @@ class Function:
 	def __init__(self):
 		print("selecting Function")
 
-	def linear(self):
+	def linear(self, value):
 		return self.Linear()
 		
 
@@ -84,8 +87,26 @@ class Bellman:
 		"""
 		
 		def __init__(self):
-			pass
+			import glob
+			import json
+			from datetime import datetime, timedelta, timezone
+			from collections import OrderedDict
+			from operator import itemgetter
 
+			JST = timezone(timedelta(hours=+9), 'JST')
+
+			self._state = []
+			
+			for json_file in glob.glob("./small_batch/*.json"):
+				print(json_file)
+				json_data = json.load(open(json_file))
+				history = dict(list(map(lambda i: [datetime.fromtimestamp(float(i)*0.001).date(), json_data['Close'][i]], json_data['Close'])))
+				self._state.append(history)
+			
+			for i in self._state:	
+				print(i)
+
+	
 		def get(self):
 			pass
 
@@ -125,10 +146,10 @@ class Bellman:
 	def state(self):
 		return self._state
 
-	def reward(self):
+	def reward(self, value):
 		return self._reward
 
-	def value(self):
+	def value(self, state):
 		return self._value
 
 
@@ -158,11 +179,17 @@ if __name__ == "__main__":
 	alpha = 0.3  # step size in gradient secant method
 	gamma = 0.98 # discount rate
 
-	w = bellman.semi_grad.feature_vector(3)	# feature vector
+	num_features = 3
+
+	w = bellman.semi_grad.feature_vector(num_features)	# feature vector
 	s = bellman.state() 					# stock prince
-	r = bellman.reward()					# reward
-	f = function.linear() 					# approximation function
-	v = bellman.value()						# value
+	v = bellman.value(s)					# value
+	r = bellman.reward(v)					# reward
+	f = function.linear(v) 					# approximation function
+
+	# check matrix vector multiplication
+	#m = numpy.matrix([[1,0,0], [0,1,0], [0,0,2]])
+	#print (0.3 * (w + 1) * m)
 
 	#w += td0.update(w + a*(r + gamma*v.get(s,w) - v.get(s,w)))grad(v.get(s,w))
 	#w += td0.update(w + a*(r + gamma*v.get(s,w) - v.get(s,w)))grad(v.get(s,w))
