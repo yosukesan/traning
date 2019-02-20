@@ -1,18 +1,22 @@
 
 import numpy as np
+import math
 
 precision = np.float32
 EPS = 1.0e-6
 
+def norm (x):
+	return np.linalg.norm(x)
+
 def delayed_time (current_time, delay):
+	"""
+	Return: time step >= 0
+	"""
 	return max(current_time - delay, 0)
 
 def grad(a,b):
-	"""
-	Description:
-		Generate grad
-	"""
-	return a * b
+	#return a / b
+	return 1.0
 
 def linear(a, b):
 	"""
@@ -31,28 +35,38 @@ def f(state, features):
 def v(state,features):
 	return f(state, features)
 
-def G(state, start, end): 
-	return 0 
+def G(history_s, gamma, t0, t): 
+
+	g = 0.0
+
+	for time in range(t, t0):
+		g += pow(gamma, time) * history_s[i]
+
+	return g
+
+
+def reward(next_s, s):
+	#print(next_s, s)
+	r = np.true_divide((next_s - s)+EPS, s+EPS)
+	return r
 
 def action(state, time, delay):
-
-	print("\t=== Action ===")
-	print("\tforward state =", state[time])
-	print("\tcurernt state =", state[time-delay])
 
 	s = state[delayed_time(time, delay)]
 	next_s = state[time]
 
-	reward = 100.0 * np.true_divide((next_s - s)+EPS, s+EPS)
+	#print("\t=== Action ===")
+	#print("\tcurernt state =", s)
+	#print("\tforward state =", next_s)
 
-	return next_s, reward 
+	return next_s
 
 def read_state(dirname):
 	import json
 	import decimal
 	import glob
 
-	num_states = 0
+	num_history_s = 0
 
 	files = glob.glob(dirname)
 	print(files)
@@ -62,27 +76,19 @@ def read_state(dirname):
 	tmp = list(map(lambda x: np.array(sorted(json_data[x]['Close'].items())), range(0, len(json_data))))
 	state = []
 	for item in tmp:
-		#print (list(map(lambda x: x[0], item))) # time
 		tmp2 = list(map(lambda x: float(x[1]), item))
 		state.append(np.array(tmp2))
 
-	#size = list(map(lambda x: x.size, state))
-
 	return state, len(files)
-
-def accumulate(g, state, time):
-
-	summation = list(map(lambda x: g+x[time], state))
-
-	return summation
 
 if __name__ == "__main__":
 
-	alpha = 0.1
-	gamma = 0.8
-	episodes = 2
-	start_t = 0
-	t = 0
+	alpha = 0.01
+	gamma = 0.98
+	episodes = 4
+	max_update = 3
+	#t0 = 1
+	t0 = 0
 	delay = 1
 
 	#
@@ -91,60 +97,103 @@ if __name__ == "__main__":
 	#s, SIZE = read_state("./small_batch/*.json") 
 	s, SIZE = read_state("./test/*.json") 
 
-	next_s = list(map(lambda x: x, np.zeros(SIZE, dtype=precision)))
-	g = list(map(lambda x: x, np.zeros(SIZE, dtype=precision)))
-	w = np.ones(SIZE, dtype=precision)
-	states = []
-	rewards = []
+	next_s = list(map(lambda x: x, np.zeros(SIZE)))
+	w = np.ones(SIZE)
+	history_s = [np.array([])]*SIZE
+	rewards = [np.array([])]*SIZE
 
 	#
 	# initial value setup
 	#
-	next_s, r = list(map(lambda x: action(x, 0, 0), s))
-	states.append(np.array(next_s))
-	rewards.append(np.array(rewards))
+	for i in range(0,len(next_s)):
+		history_s[i] = np.append(history_s[i], s[i][0])
+
+	#next_s = list(map(lambda x: action(x, t0+1, delay), s))
+	#r = list(map(lambda i: reward(next_s[i], s[i][0]), range(0, len(next_s))))
+
+	print("=== Initial ===")
+	#print("next state =", next_s)
+	print('\n')
+
 
 	#--------------------------------------------------------------------------------
-	for i in range(start_t, episodes): 
+	for t in range(t0+1, episodes): 
 	#---------------------------------------------------------------------------------
-
-		err_td = 1.0e+6
-		t += 1
 
 		print("time =", t)
 
-		next_s, r = list(map(lambda x: action(x, t, delay), s))
+		_norm = 1.0e+9
+		counter = 0
 
-		#
-		# Store state and reward for discounted rewards
-		#
-		states.append(np.array(next_s))
-		rewards.append(np.array(rewards))
+		next_s = list(map(lambda x: action(x, t, delay), s))
 
-		#
-		# this is a message for debug
-		#
-		#print ("\tstates", states)
+		for i in range(0,len(next_s)):
+			history_s[i] = np.append(history_s[i], next_s)
 
 		#-----------------------------------------------------------------------------
-		while err_td > 1.0e-6:
+		while True:
 		#-----------------------------------------------------------------------------
-	
+
+			#
+			# Get trail states and correcponding reward
+			#
+			next_s = list(map(lambda x: action(x, t, delay), s))
+
+			r = list(map(lambda i: reward(next_s[i], s[i][t]), range(0, len(next_s))))
+			print("\t === Searching ===")
+			print("\tnext state =", next_s)
+			print("\treward =", r)
+
+			#
+			# TD error
+			#
+
+			# check G
+			print(list(map(lambda i: G(history_s[i],gamma,t0,t), range(0, len(history_s)))))
+
+			_err_td = list(map(lambda i:  
+						G(history_s[i],gamma,t0,t) + gamma * v(history_s[i][delayed_time(t,delay)],w[i]),
+						range(0, len(history_s))))
+			err_td = np.array(_err_td)	
+
+			#
+			# Check Convergence
+			#
+			_norm = norm(err_td)
+			print("\tNorm =", _norm)
+
+			if _norm < 1.0e-3:
+				print("\tConverged Norm =", _norm)
+
+				s = next_s
+
+				#
+				# Store state and reward for discounted rewards
+				#
+				for i in range(0,len(next_s)):
+					history_s[i] = np.append(history_s[i], next_s[i])
+
+				for i in range(0,len(r)):
+					rewards[i] = np.append(rewards[i], r[i])
+
+				print(history)
+				print(rewards)
+
+				break
+
+			if counter >= max_update:
+				print("\n=== Error Termination ===\n Reached maximum iteration =", counter)
+				exit()
+
 			#
 			# TD(0) update		
 			#
-			err_td = 
-
-			ww = list(map(lambda i, j: 
-					w + alpha* G(states[t][i],start_t,t) + gamma * v(states[delayed_time(t,delay)][i],w[j]) - v(states[t][i],w[j]) * grad(states[t][i], w[j]),
-					range(0, len(states[0])), range(0, len(w))))
-			w = np.array(ww)
-			print(np.array(ww))
+			_w = list(map(lambda i, j: 
+					w + alpha*(err_td - v(history_s[i][t],w[j]) * grad(history_s, w[j])),
+					range(0, len(history_s[0])), range(0, len(w))))
+			w = np.array(_w)
 	
-			#w += alpha * (accumulate(g, states,t-1) + gamma * v(states[t-1],w) - v(states[t],w)) * grad(v(states[t-1],w), w)
+			counter += 1
+			print('\n')
 
-			err_td = 1.0e-7
-
-		#s = next_s
-		
-
+			# end of while True:
