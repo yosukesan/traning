@@ -14,5 +14,5 @@ int main()
 	Foo f1(4);
 	Foo f();
 
-	f.init(f1);	
+	f.init(&f1);	
 }
