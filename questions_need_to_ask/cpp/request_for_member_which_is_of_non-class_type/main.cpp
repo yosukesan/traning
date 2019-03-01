@@ -12,7 +12,8 @@ public:
 int main()
 {
 	Foo f1(4);
-	Foo f();
+	//Foo f(); this was wrong
+	Foo f; 
 
 	f.init(&f1);	
 }
