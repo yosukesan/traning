@@ -29,16 +29,10 @@ int main()
 		}
 	}	
 
-	if (n != 1)
+	for (int i=0; i<m; ++i)
 	{
-		for (int i=0; i<n; ++i)
-		{
-			sum += (s[i].get() == n) ? 1 : 0;
-		}
-	}
-	else
-	{
-		sum = length;
+		if (s[i].get() == n)
+			++sum;
 	}
 
 	cout << sum << endl;
