@@ -11,7 +11,7 @@ void quick_sort(int* arr, const int& left, const int& right)
         int j = right;
 
         int tmp;
-        const int pivot = arr[(i + j-1) / 2];
+        const int pivot = arr[(i + j)/2];
    
         while (1)
         {
@@ -27,9 +27,9 @@ void quick_sort(int* arr, const int& left, const int& right)
             ++i;
             --j;
 
-            quick_sort(arr, left, i-1);
-            quick_sort(arr, j+1, right);
         }
+        quick_sort(arr, left, i-1);
+        quick_sort(arr, j+1, right);
     }
 }
 
@@ -41,8 +41,8 @@ void print(int* arr, const int& length)
 
 int main()
 {
-    int arr[] = {8, -9, 10, 5, 4, 6, 12, -3, 5, -4, 22};
-    //int arr[] = {8, -9, 10, 5, 4};
+    //int arr[] = {8, -9, 10, 5, 4, 6, 12, -3, 5, -4, 22};
+    int arr[] = {8, -9, 10, 5, 4};
     const int tail = sizeof(arr)/sizeof(arr[0]);
 
     cout << tail << endl;
