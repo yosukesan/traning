@@ -1,14 +1,13 @@
 
-#include <stdio.h>
+#include "func.h"
 
 int main()
 {
-    int a = 1;
+    int a = 0;
 
-    if (a)
-        printf("true");
-    else
-        printf("false");
-    
+    func(0);
+    func(1);
+    func(a);
+
     return 0;
 }

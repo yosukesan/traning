@@ -1,6 +1,9 @@
 
-all: main.c
-	gcc -g -O0 -W -Wall -pedantic -coverage $<
+CFLAGS=-g -O0 -W -Wall -pedantic -coverage
+
+all: func.c
+	gcc -c ${CFLAGS} $< 
+	gcc ${CFLAGS} -o a.out main.c *.o
 
 lcov: a.out
 	./$<
@@ -8,5 +11,5 @@ lcov: a.out
 	genhtml *.info -o result.html
 
 clean:
-	rm *.gcda *.gcno *.info a.out -r *.html
+	rm *.gcda *.gcno *.info a.out -r *.html *.o
 
