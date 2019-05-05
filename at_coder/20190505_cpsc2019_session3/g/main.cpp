@@ -29,8 +29,10 @@ int main()
 
     if (!(delta >= 1.0))
     {
+        /*
         sort(x, x+n, greater<int>());
         x[n-1]++;
+        */
     }
 
     for (long long i=0; i<n; ++i)
