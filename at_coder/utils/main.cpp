@@ -1,10 +1,16 @@
 
 #include <iostream>
+#include <string>
+#include <algorithm>
+#include <set>
+
+typedef long long ll;
 
 using namespace std;
 
 int main()
 {
-    cin >> ;
+    //ll n;
+    //cin >>;
     return 0;
 }
