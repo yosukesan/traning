@@ -12,63 +12,26 @@ int main()
 {
     ll n, Y;
     ll x, y, z;
+    ll rx = -1, ry = -1, rz = -1;
 
     cin >> n >> Y;
 
-    x = 0;
-    while (1)
+    for (z=0; z<=n; z++)
     {
-        if (Y >= 0)
+        for (y=0; z + y<=n; y++)
         {
-            Y -= 10000;
-            ++x;
-        }
-        else
-        {
-            Y += 10000;
-            --x;
-            break;
+            x = n - y - z;
+
+            if (10000*x + 5000*y + 1000*z == Y) 
+            {
+                rx = x;
+                ry = y;
+                rz = z;
+            } 
         }
     }
 
-    y = 0;
-    while (1)
-    {
-        if (Y >= 0)
-        {
-            Y -= 5000;
-            ++y;
-        }
-        else
-        {
-            Y += 5000;
-            --y;
-            break;
-        }
-    }
-
-    z = 0;
-    while (1)
-    {
-        if (Y >= 0)
-        {
-            Y -= 1000;
-            ++z;
-        }
-        else
-        {
-            Y += 1000;
-            --z;
-            break;
-        }
-    }
-
-        //cout << x << " " << y << " " << z << endl; 
-
-    if (x + y + z <= n)
-        cout << x << " " << y << " " << z << endl; 
-    else
-        cout << -1 << " " << -1 << " " << -1 << endl;
+    cout << rx << " " << ry << " " << rz << endl; 
 
     return 0;
 }
