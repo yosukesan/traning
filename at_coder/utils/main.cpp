@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <set>
 #include <cmath>
+#include <vector>
 
 typedef long long ll;
 
