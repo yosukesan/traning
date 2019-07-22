@@ -16,35 +16,35 @@ int main()
 
     cin >> n >> d;
 
-    vector<vector<ll>> x(n);
+    ll x[11][11];
 
-    for (ll i=0; i<n; ++i)
+    for (ll j=0; j<n; j++)
     {
-        for (ll j=0; j<d; ++j)
+        for (ll i=0; i<d; i++)
         {
-            ll tmp;
-            cin >> tmp; x.at(i).push_back(tmp);
+            cin >> x[j][i]; 
+       }
+    }
+
+    ll count (0);
+    for (ll j=0; j<n; j++)
+    {
+        for (ll i=j+1; i<n; i++)
+        {
+            float dist (0); 
+            for (ll l=0; l<d; l++)
+            {
+                dist += pow(x[j][l] - x[i][l], 2);
+            }
+
+        dist = sqrt(dist);
+        if (dist == floor(dist))
+            count++;
+
         }
     }
 
-    ll counter (0);
-    for (ll i=0; i<n; i++)
-    {
-        double sum (0);
-        for (ll k=i+1; k<n; k++)
-        {
-                for (ll j=0; j<d; ++j)
-                {
-                    sum += pow(x.at(i)[j] - x.at(k)[j], 2);     
-                }
-                sum = sqrt(sum);
-
-                if (floor(sum) == ceil(sum))
-                    counter++;
-        }
-    }
-
-    cout << counter << endl;
-
+    cout << count << endl;
+    
     return 0;
 }
