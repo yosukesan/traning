@@ -1,8 +1,6 @@
 
 #include <iostream>
 #include <string>
-#include <algorithm>
-#include <set>
 
 typedef long long ll;
 
@@ -10,31 +8,31 @@ using namespace std;
 
 int main()
 {
-    char c[4];
-    int num[4];
+    string c;
  
-    for (ll i=0; i<4; ++i) 
-        cin >> c[i];
- 
-    for (ll i=0; i<4; ++i) 
-        num[i] = c[i] - '0';
+    cin >> c;
 
-    if ((num[0]*10 + num[1] == 0) || (num[2]*10 + num[3] == 0) || (((num[2]*10 + num[3]) > 12) && ((num[0]*10 + num[1]) > 12)) )
+    ll r = (c[2] - 48)*10 + c[3]-48;
+    ll l = (c[0] - 48)*10 + c[1]-48;
+
+    if (1<=l && l<=12)
     {
+        if (1<=r && r<=12)
+            cout << "AMBIGUOUS" << endl;
+        else
+            cout << "MMYY" << endl;
+    }
+    else if (1<=r && r<=12)
+    {
+        if (1<=l && l<=12)
+            cout << "AMBIGUOUS" << endl;
+        else
+            cout << "YYMM" << endl;
+    }
+    else
         cout << "NA" << endl;
-    }
-    else if ( ((num[0]*10 + num[1] <= 12) && (num[2]*10 + num[3] <= 99)) && ((num[0]*10 + num[1] <= 99) && (num[2]*10 + num[3] <= 12)) )
-    {
-        cout << "AMBIGUOUS" << endl;
-    }
-    else if ((num[0]*10 + num[1] <= 12) && (num[2]*10 + num[3] <= 99))
-    {
-        cout << "MMYY" << endl;
-    }
-    else if ((num[0]*10 + num[1] <= 99) && (num[2]*10 + num[3] <= 12))
-    {
-        cout << "YYMM" << endl;
-    }
-    
+
+    //cout << left << ' ' << right << endl;
+
     return 0;
 }
