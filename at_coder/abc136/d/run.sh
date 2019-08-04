@@ -1,0 +1,2 @@
+
+echo "RRLRL" | ./a.out
