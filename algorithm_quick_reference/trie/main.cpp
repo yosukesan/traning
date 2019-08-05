@@ -6,12 +6,17 @@ using namespace std;
 
 const int ALPHABET_SIZE = 26;
 
+//trie node
 struct TrieNode
 {
     struct TrieNode *children[ALPHABET_SIZE];
+
+    // isEndofWord is true if the node reporesents
+    // end of the word
     bool isEndOfWord;
 };
 
+// Returns new trie node (initialised to NULLs)
 struct TrieNode* getNode()
 {
     struct TrieNode *node = new TrieNode;
@@ -48,7 +53,7 @@ bool search(struct TrieNode* root, string key)
     for (int i=0; i<key.length(); ++i) 
     {
         int index = key[i] - 'a';
-        if (crawl->children[index])
+        if (!crawl->children[index])
             return false;
 
         crawl = crawl->children[index];
