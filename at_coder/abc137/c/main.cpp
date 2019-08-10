@@ -54,9 +54,8 @@ int main()
         auto it = mset.begin();
 
         ll inc = mset.count(*it);
+        count += (ll)inc * (inc-1) / 2;
 
-        count+=inc-1;
-    
         mset.erase(*it);
     }
 
