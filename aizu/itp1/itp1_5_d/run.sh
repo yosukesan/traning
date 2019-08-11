@@ -1,0 +1,4 @@
+
+echo "30" | ./a.out
+echo "60" | ./a.out
+echo "256" | ./a.out
