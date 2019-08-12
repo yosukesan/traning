@@ -16,14 +16,29 @@ int main()
 
     while (cin >> n >> x)
     {
-        if (n == -1 && x == -1)
-            break;
-    }
+        ll count (0);
 
-    ll count (0);
-    for (i=1; i<n; i++)
-    {
-        
+        if (n == 0 && x == 0)
+            break;
+
+        for (ll i=n; i>=1; i--)
+        {
+            for (ll j=i; j>=1; j--)
+            {
+                for (ll k=j; k>=1; k--)
+                {
+                    ll ans = i + j + k;
+                    if ( i != j && j != k && ans == x)
+                    {
+                        //cout << i << j << k << ans << endl;
+                        count++;
+                    }
+                }    
+            }    
+        }
+
+       cout << count << endl;
+
     }
 
     return 0;
