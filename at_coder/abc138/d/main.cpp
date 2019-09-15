@@ -5,108 +5,59 @@
 #include <set>
 #include <cmath>
 #include <vector>
-#include <deque>
 
 typedef long long ll;
+const ll LL_MAX (1LL<<60);
+
+#define rep(i,s,e) for(ll i=(s); i<(e); i++) 
 
 using namespace std;
 
-void bfs(vector<vector<ll>>& g, vector<ll>* s, vector<ll>&c, const ll& start, const ll& score) 
+ll c(0);
+
+void dfs(const ll& size,  vector<vector<ll>>& g, vector<ll>* ans, const ll& start, const ll& parent=-1)
 {
-    vector<bool> visited(g.size(), false);
-    deque<ll> q(1, start);
-    visited[start] = true; 
-    ll st(0);
+    if (c > size)
+        return;
 
-    while (!q.empty()) 
+    c++;
+
+    cout << start << endl;
+
+    ll i = g[start][1];
     {
-        ll node = q.front();
-        q.pop_front();
-
-        //cout << node << endl;
-        //s->at(node) += score;
-        st += c[node]; 
-        s->at(node) += st;
-         
-        for (auto i: g[node])
+        if (i != parent) 
         {
-            if (!visited[i])
-            {
-                q.push_back(i);
-                visited[i] = true;
-            }
+            //ans->at(i) += ans->at(start);
+            dfs(size, g, ans, i, start);
         }
     }
 }
 
-
 int main()
 {
     ll n, q;
+
     cin >> n >> q;
 
-    vector<vector<ll>> e(n, vector<ll>(2));
-    vector<vector<ll>> c(q, vector<ll>(2));
-    vector<vector<ll>> g(n);
-    vector<ll> cc(n);
-    vector<ll> s(n);
+    vector<vector<ll>> p(n+q, vector<ll>(2)); 
+    vector<ll> ans(n, 0);
 
-    for (ll i=0; i<n-1; i++)
-        cin >> e[i][0] >> e[i][1];        
+    rep(i, 0, n-1)
+        rep(j, 0, 2)
+            cin >> p[i][j], p[i][j]--;
 
-    for (ll i=0; i<q; i++)
-        cin >> c[i][0] >> c[i][1];        
+    rep(i, n-1, n+q-1)
+        rep(j, 0, 2)
+            cin >> p[i][j];
 
-    g[0].push_back(0);
-    for (ll i=0; i<n-1; i++)
-    {
-        g[e[i][0]-1].push_back(e[i][1]-1);
-    }
+    rep(i, n-1, n+q-1)
+        ans[p[i][0]] += p[i][1]; 
 
-    for (ll i=0; i<q; i++)
-    {
-        cc[c[i][0]-1]= c[i][1];
-    }
+    dfs(n-1, p, &ans, 0); 
 
-    /*
-    for (ll i=0; i<n-1; i++)
-    {
-        for (auto j : g[i])
-            cout << ' ' << j;
-        cout << endl;
-    }
-    for (auto j : cc)
-        cout << ' ' << j;
-    */
-
-    /*
-    for (ll i=0; i<n-1; i++)
-    {
-        for (ll j=0; j<2; j++)
-        {
-            cout << ' ' << e[i][j];
-        }
-        cout << endl;
-    }
-        cout << endl;
-
-    for (ll i=0; i<q; i++)
-    {
-        for (ll j=0; j<2; j++)
-        {
-            cout << ' ' << c[i][j];
-        }
-        cout << endl;
-    }
-    */
-
-    ll node (c[0][0]);
-    ll score (c[0][1]);
-
-    bfs(g, &s, cc, 0, score);    
-
-    for (auto i: s)
-        cout << i << endl;
+    //for (auto i: ans)
+    //    cout << i << endl;
 
     return 0;
 }
