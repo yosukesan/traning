@@ -43,46 +43,7 @@ int main()
         rep(j,0,s[i].b) cin >> tmp, s[i].c.push_back(--tmp);     
     }
 
-    //rep(i,0,m) 
-    //{
-    //    cout << s[i].a << ' ' << s[i].b << endl;
-    //    rep(j,0,s[i].b) cout << s[i].c[j] << ' ';     
-    //    cout << endl;
-    //}
 
-    vector<bool> can_open(n, false);
-
-    sort(s.begin(), s.end());
-
-    //vector<vector<ll>> dp (1E+3+10, vector<ll>(1E+5+10, LL_MAX));
-    ll _min(LL_MAX); 
-    rep(k,0,m) 
-    {
-        ll cost(0); 
-        rep(i,0,m) 
-        {
-            bool changed(false);
-            rep(j,0,s[i].b)
-            {
-                if (can_open[s[i].c[j]] == false)
-                    changed = true;
-
-                can_open[s[i].c[j]] = true;
-            }
-
-            if (changed)
-                cost += s[i].a;
-        }
-        if (cost != 0)
-            _min = min(_min, cost);
-    }
-
-    rep(i,0,n)
-        if (can_open[i] != true)
-        {
-            cout << -1 << endl;
-            return 0;
-        }
 
     cout << _min << endl;
 
