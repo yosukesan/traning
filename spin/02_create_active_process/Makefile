@@ -1,0 +1,2 @@
+all:
+	spin main.p
