@@ -12,3 +12,20 @@ echo "
 4
 3
 2" | ./a.out
+echo
+echo "
+7
+5
+4
+3
+2
+4
+3
+1" | ./a.out
+echo
+echo "5
+1
+2
+3
+6
+7" | ./a.out

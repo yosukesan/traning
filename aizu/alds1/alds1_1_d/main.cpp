@@ -22,26 +22,20 @@ int main()
 
     rep(i, 0, n) cin >> r[i];
 
-    pair<ll, ll> _max (make_pair(-LL_MAX,0)), _min(make_pair(LL_MAX,0));
+    ll min(LL_MAX); 
+    ll profit (-LL_MAX);
+    rep(i,0,n-1)
+    {
+        if (min > r[i])
+            min = r[i];
 
-    rep(i, 0, n){
-            if (r[i] < _min.first)
-                _min = make_pair(r[i], i);
+        ll p = r[i+1]-min;
+
+        if (p > profit)
+        profit = p;
     }
 
-    cout << _min.first << ' ' << _min.second << endl;
-
-    rep(i, _min.second, n){
-            if (r[i] > _max.first)
-                _max = make_pair(r[i], i);
-    }
-
-    cout << _max.first << ' ' << _max.second << endl;
-
-    //ll sgn = (_max.second > _min.second) ? 1 : -1;
-    //if (_max.second == _min.second) sgn = 0;
-    
-    cout << _max.first - _min.first << endl;    
+    cout << profit << endl;    
 
     return 0;
 }
