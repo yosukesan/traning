@@ -1,3 +1,3 @@
 
 all: main.cpp
-	g++	-W	-Wall	-pedantic	-O0	-g	$<
+	g++	-W	-Wall	-pg -pedantic	-O0	-g	$<

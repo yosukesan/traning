@@ -1,72 +1,61 @@
 
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <set>
-#include <cmath>
 #include <vector>
 #include <queue>
 
-typedef long long ll;
-const ll LL_MAX (1LL<<60);
-
-#define rep(i,s,e) for(ll i=(s); i<(e); i++) 
+#define INF (1<<30)
 
 using namespace std;
+using p = pair<int, int>;
+using Graph = vector<vector<p>>;
 
-ll dijkstra(vector<vector<ll>>& g, const ll& start, const ll& end)
+int dijkstra(Graph& g, int& s)
 {
-    ll sum (0);
-    vector<bool> visited(g.size(), false);
-    priority_queue<ll, vector<int>, greater<int>> q;
-
-    q.push(start);
+    priority_queue<p, vector<p>, less<p>> q;
+    vector<int> dist(g.size(), INF);
+    dist[s]=0;
+    q.push(p(0, s));
 
     while (!q.empty())
     {
-        ll v = q.top();
-        q.pop();
+        p pi = q.top(); q.pop();
+        int v = pi.second;
+        if (dist[v]<pi.first) continue;
 
-        //cout << v << endl;
-
-        if (!visited[v])
+        int to, cost;
+        for (size_t k=0; k<g[v].size(); ++k)
         {
-            visited[v] = true;
-
-            if (v == end) 
-                return sum;
-
-            q.push(g[v][1]);
-            cout << g[v][1] << endl;
-            sum += g[v][2];
+            p i (g[v][k]);
+            to = i.second;
+            cost = i.first;
+            if (dist[to] > dist[v] + cost)
+                dist[to] = dist[v] + cost, q.push(p(dist[to], to));
         }
     }
 
-    return sum;
+    for (size_t i=0; i<dist.size(); ++i)
+        if (dist[i] < INF)
+            cout << dist[i] << endl;
+        else
+            cout << "INF" << endl;
 }
 
 int main()
 {
-    ll num_v, num_e, start;
-    
-    cin >> num_v >> num_e >> start;
+    cin.tie(0);
+    ios::sync_with_stdio(false);
 
-    vector<vector<ll>> g(num_e, vector<ll>(3));
+    int V, E, r;
+    cin >> V >> E >> r;
 
-    rep(i,0,5)
-        rep(j,0,3)
-            cin >> g[i][j];
-
-    set<ll> ends;
-    ends.insert(start);
-    rep(i, 0, g.size())
-        ends.insert(g[i][1]);
-
-    for (auto i : ends)
+    Graph g(V);
+    for (int i=0; i<E; i++)
     {
-        cout << dijkstra(g, start, i) << endl; 
-    } 
-            
+        int a, b, c;
+        cin >> a >> b >>c;
+        g[a].emplace_back(c, b); 
+    }
 
-    return 0;
+    dijkstra(g, r);
 }
+
