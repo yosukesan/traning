@@ -5,9 +5,14 @@
 #include <set>
 #include <cmath>
 #include <vector>
+#include <numeric>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
 
 typedef long long ll;
 const ll LL_MAX (1LL<<60);
+using Graph = vector<vector<ll>>;
 
 #define rep(i,s,e) for(ll i=(s); i<(e); i++) 
 
@@ -15,21 +20,18 @@ using namespace std;
 
 int main()
 {
-    ll a, b, k;
-    cin >> a >> b >> k;
-    k--;
+    cin.tie(0);
+    ios::sync_with_stdio(false);
 
-    ll d ((a > b)? a : b); 
-    vector<ll> factors;
-    rep(i, 1, d+1)
+    ll n;
+    cin >>n;
+  
+    rep(i, 0, n)
     {
-        if (a%i == 0 && b%i == 0)
-            factors.push_back(i);
+        ll a;
+        cin >> a;
+        
     }
-
-    reverse(factors.begin(), factors.end());
-
-    cout << factors[k] << endl;
-
+    
     return 0;
 }
