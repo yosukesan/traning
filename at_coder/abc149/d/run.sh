@@ -8,3 +8,7 @@ echo "7 1
 100 10 1
 ssssppr
 " | ./a.out
+
+echo "30 5
+325 234 123
+rspsspspsrpspsppprpsprpssprpsr" | ./a.out

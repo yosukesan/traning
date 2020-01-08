@@ -27,16 +27,27 @@ int main()
     cin >> n >> k;
     cin >> r >> s >> p;
 
-    string stat;
-    cin >> stat;
+    string t;
+    cin >> t;
 
     ll score(0);
 
-    rep(i,0,stat.size())
+    rep(i,0,t.size())
     {
-        if (stat[i]=='r') score+=p;
-        if (stat[i]=='s') score+=r;
-        if (stat[i]=='p') score+=s;
+        if (0<=i-k && t[i] == t[i-k])      
+        {
+            t[i] = '-';
+            continue;
+        }
+
+        ll pnt(0);
+        if (t[i]=='r') pnt=p;
+        else if (t[i]=='s') pnt=r;
+        else pnt=s;
+    
+        score += pnt;
+    
+        //cout << t[i-k] << ' ' << score << endl;
     }
 
     cout << score << endl;
