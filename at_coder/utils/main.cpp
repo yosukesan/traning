@@ -12,6 +12,7 @@
 
 typedef long long ll;
 const ll LL_MAX (1LL<<60);
+const ll MOD (1000000007);
 
 #define rep(i,s,e) for(ll i=(s); i<(e); i++) 
 
