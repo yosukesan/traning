@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yosuke/Data/github/traning/c++/graph/element_talbe_to_vertex_neibouring_table/main.cpp
+iostream
+-
+string
+-
+vector
+-
+set
+-
+sstream
+-
+memory
+-
+unordered_map
+-
+

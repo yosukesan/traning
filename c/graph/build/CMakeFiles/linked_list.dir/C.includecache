@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yosuke/Data/github/traning/c/graph/data.h
+
+/home/yosuke/Data/github/traning/c/graph/linked_list.c
+stdlib.h
+-
+linked_list.h
+/home/yosuke/Data/github/traning/c/graph/linked_list.h
+
+/home/yosuke/Data/github/traning/c/graph/linked_list.h
+data.h
+/home/yosuke/Data/github/traning/c/graph/data.h
+

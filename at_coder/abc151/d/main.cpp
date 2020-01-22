@@ -17,19 +17,53 @@ const ll MOD (1000000007);
 
 using namespace std;
 
-using Grid = vector<vector<char>> s;
+using Grid = vector<vector<char>>;
+
+struct Coord{
+    int x;
+    int y;
+    Coord(){} 
+    Coord(int _x, int _y): x(_x), y(_y){}
+};
+bool operator<(const Coord&a, const Coord&b){return a < b;}
 
 vector<ll> grid_x = {1,0,-1,0};
-vector<ll> grid_y = {1,0,-1,0};
+vector<ll> grid_y = {0,1,0,-1};
 
 ll h, w;
 
-ll dfs(vector<vector<char>>& g, ll x, ll y, dist)
+ll bfs(vector<vector<char>>& g, ll x, ll y)
 {
-    for ()
+    Grid visited(h);
 
-    if (h + w - 1 >= dist)
-        dfs(g, x, y, dist); 
+    for (int i=0; i<g.size(); ++i)
+        for (int j=0; j<g[i].size(); ++j)
+            visited[i].push_back(0); 
+    visited[y][x] = 1;
+
+    priority_queue<Coord> q;
+    q.push(Coord(x,y));
+
+    while (!q.empty())
+    {
+        Coord c (q.top()); q.pop();
+        //if (visited[c.y][c.x]==1) continue;
+
+        for (int i=0; i<4; i++)
+        {
+            ll xx = c.x + grid_x[i];  
+            ll yy = c.y + grid_y[i];  
+
+            cout << xx << ' ' << yy << endl;
+
+            if (xx<0 || w<=x || yy<0 || h<=y) continue;
+            if (g[yy][xx] == '#') continue;
+
+            visited[yy][xx]==1;
+            q.push(Coord(xx, yy));
+        }
+    }
+
 }
 
 int main()
@@ -44,13 +78,22 @@ int main()
     char c;
     rep(j,0,h)
         rep(i,0,h)
-            cin >> c, g.push_back(c);
+            cin >> c, g[j].push_back(c);
+
+    //for (auto j: g)
+    //{ 
+    //    for (auto i: j)
+    //    {
+    //        cout << i;
+    //    }
+    //    cout << endl;
+    //}
 
     ll dist(0);
     rep(j,0,h)
         rep(i,0,w)
             if (g[j][i] != '#')
-                dijkstra(g, i, j, dist);  
+               dist = bfs(g, i, j);  
     
     return 0;
 }

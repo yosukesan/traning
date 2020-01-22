@@ -1,7 +1,0 @@
-all:
-	bison	-d	calc.y
-	flex calc.l
-	gcc calc.tab.c lex.yy.c -o calc -lm -lfl
-
-clean:
-	rm *.c *.h calc

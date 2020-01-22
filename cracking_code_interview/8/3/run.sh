@@ -1,0 +1,2 @@
+
+echo "abfgsg" | ./a.out
