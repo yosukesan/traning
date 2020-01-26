@@ -6,11 +6,13 @@
 #include <cmath>
 #include <vector>
 #include <numeric>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
 
-typedef long long ll;
+using ll = long long int;
+using ul = unsigned long long int;
 const ll LL_MAX (1LL<<60);
 const ll MOD (1000000007);
 
