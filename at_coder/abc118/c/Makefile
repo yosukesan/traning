@@ -1,2 +1,3 @@
-all:
-	g++ -W -Wall -DDEBUG -pedantic -O0 -g main.cpp
+
+all: main.cpp
+	g++	-W	-Wall	-pedantic	-O0	-g	$<
