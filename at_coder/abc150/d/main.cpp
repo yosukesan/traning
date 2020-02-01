@@ -18,6 +18,25 @@ const ll MOD (1000000007);
 
 using namespace std;
 
+ll gcd(ll a, ll b)
+{
+    return b ? gcd(b, a%b) : a;
+}
+
+ll lcm(ll a, ll b)
+{
+    return a*b / gcd(a, b);
+}
+
+ll f(ll x)
+{
+    ll res = 0;
+    while (x%2 == 0)
+        x /= 2, res++;
+
+    return res;
+}
+
 int main()
 {
     cin.tie(0);
@@ -28,23 +47,43 @@ int main()
     vector<ll> a(n);
     rep(i,0,n) cin >> a[i];
 
-    sort(a.begin(), a.end(), greater<ll>());
+    rep(i,0,n) 
+    {
+        if (a[i]%2==1)
+        {
+            cout << 0 << endl;
+            return 0;
+        } 
+        a[i] /= 2;
+    }
 
-    ll cnt(0);
+    ll t = f(a[0]);
     rep(i,0,n)
     {
-        rep(p,0,m)
+        if (f(a[i]) != t)
         {
-            ll x = a[i] * (p + 0.5);
-            if (x <= m)
-            {
-                //cout << x << endl; 
-                cnt++;
-            }
+            cout << 0 << endl;
+            return 0;
+        }
+        a[i] >>= t;
+    }
+
+    m >>= t;
+
+    ll l = 1;
+    rep(i,0,n)
+    {
+        l = lcm(l, a[i]);
+        if (l > m)
+        {
+            cout << 0 << endl;
+            return 0;
         }
     }
 
-    cout << cnt << endl;
+    m /= l;
+    ll ans ((m+1)/2);
+    cout << ans << endl;
 
     return 0;
 }
