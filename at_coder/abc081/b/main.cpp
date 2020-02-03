@@ -1,55 +1,60 @@
 
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <set>
+#include <cmath>
+#include <vector>
+#include <numeric>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+
+using ll = long long int;
+using ul = unsigned long long int;
+const ll LL_MAX (1LL<<60);
+const ll MOD (1000000007);
+
+#define rep(i,s,e) for(ll i=(s); i<(e); i++) 
 
 using namespace std;
 
-int check(const int num, int* arr)
-{
-	int is_stop = 0;
-
-	for (int i=0; i<num; ++i)
-	{
-		is_stop |= arr[i] & 0x1;
-		//cout << is_stop << endl;
-	}
-
-	return is_stop;
-}
-
-void div(const int num, int* arr)
-{
-	for (int i=0; i<num; ++i)
-	{
-		arr[i] >>= 1;
-	}
-}
-
 int main()
 {
-	int num;
-	int arr[200]; 
-	int counter = 0;
-	int is_stop;
+    cin.tie(0);
+    ios::sync_with_stdio(false);
 
-	cin >> num;	
+    ll n;
+    cin >>n;
+    vector<ll> a(n);
+    rep(i,0,n) cin >> a[i];
 
-	for (int i=0; i<num; ++i)
-	{
-		cin >> arr[i];
-	}
+    ll cnt (0);
+    while (true)
+    {
+        ll shf(1);
 
-	while (true)
-	{
-		is_stop = check(num, &arr[0]);
+        rep(i,0,n)
+            if (a[i]%2 != 0)
+                shf = shf && 0;
 
-		if (is_stop)
-			break;
+        //for (auto i: a)
+        //    cout << ' ' << i;
+        //cout << endl;
 
-		++counter;
-		div(num, &arr[0]);
-	}
 
-	cout << counter << endl;
+        if (!shf)
+            break;
+ 
+        if (shf)   
+            rep(i,0,n)
+                a[i] >>= 1;
 
-	return 0;
+        cnt++;
+    }
+
+    cout << cnt <<endl;
+
+    return 0;
 }
