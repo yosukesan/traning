@@ -5,6 +5,7 @@
 #include <set>
 #include <cmath>
 #include <vector>
+#include <queue>
 
 typedef long long ll;
 const ll LL_MAX (1LL<<60);
@@ -18,28 +19,28 @@ int main()
     ll n, m;
     cin >> n >> m;
 
-    vector<ll> a(n);
-
-    rep(i, 0, n) cin >> a[i];
-
-    sort(a.begin(), a.end(), greater<ll>());
-
-
-    ll sum(0);
-    const ll Q(1E+5);
-    //const ll Q(1E+9);
-    vector<vector<ll>> dp(m, vector<ll>(Q,LL_MAX));
-
-    ll _min (LL_MAX);
-    ll j(0);
-    while (true)
+    //vector<ll> a(n);
+    //rep(i, 0, n) cin >> a[i];
+    priority_queue<ll> a;
+    rep(i, 0, n)
     {
-        rep(i, 0, m)
-        {
-            
-            if (dp[j][i] < )
-        }
-        j++;
+        ll b;
+        cin >> b;
+        a.push(b);
     }
+
+    rep(i,0,m)
+    {
+        ll t = a.top()/2;
+        a.pop();
+        a.push(t);
+    }
+    
+    ll ans;
+    while (!a.empty())
+        ans+=a.top(), a.pop();
+
+    cout << ans <<endl;
+        
     return 0;
 }
