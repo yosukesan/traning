@@ -6,11 +6,13 @@
 #include <cmath>
 #include <vector>
 #include <numeric>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
 
-typedef long long ll;
+using ll = long long int;
+using ul = unsigned long long int;
 const ll LL_MAX (1LL<<60);
 const ll MOD (1000000007);
 
@@ -23,11 +25,10 @@ int main()
     cin.tie(0);
     ios::sync_with_stdio(false);
 
-    ll a, b, c;
-    cin >> a >> b >> c;
-    if (b-a == c-b)
-        cout << "YES" << endl;
-    else
-        cout << "NO" << endl;
+    const ll off(-'a'+'A');
+
+    string s1, s2, s3;
+    cin >> s1 >> s2 >> s3;
+    printf("%c%c%c\n", s1[0]+off, s2[0]+off, s3[0]+off);
     return 0;
 }
