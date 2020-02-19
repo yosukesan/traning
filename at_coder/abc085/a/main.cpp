@@ -25,23 +25,14 @@ int main()
     cin.tie(0);
     ios::sync_with_stdio(false);
 
-    ll n;
-    cin >> n;
-    vector<ll> d(n);
-    rep(i,0,n) cin >> d[i];
-    sort(d.begin(), d.end(), greater<ll>());
-    unique(d.begin(),d.end());
+    string s;
+    cin >> s;
 
-    ll prev(LL_MAX), cnt(0);
-    for (ll i=0; i<n; i++)
-    {
-        if (prev <= d[i])
-            break;
-        prev = d[i];
-        cnt++;
-    }
-
-    cout << cnt << endl;
+    s[0] = '2';
+    s[1] = '0';
+    s[2] = '1';
+    s[3] = '8';
+    cout << s << endl;
 
     return 0;
 }
