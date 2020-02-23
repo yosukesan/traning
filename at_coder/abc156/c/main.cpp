@@ -30,45 +30,18 @@ int main()
     vector<ll> x(n);
     rep(i,0,n) cin >> x[i];
 
-    vector<ll> accm(n,0);
+    ll ans(LL_MAX);
 
-    ll p;
-
-    ll _max(-LL_MAX);
-    rep(i,0,n)
-        _max = max(_max, x[i]);
-
-    vector<ll> coord(_max);
-    iota(coord.begin(),coord.end(),1);
-
-    vector<ll> xx = x;
-    sort(xx.begin(), xx.end());
-
-    ll ans, tmp, target=(*xx.begin()+*xx.end())/2, prev(LL_MAX);
-    while (true)
-    {
-        tmp = 0;
-
+    rep(i,1,101)
+    { 
+        ll cur(0);
         rep(j,0,n)
         {
-            tmp += pow(x[j]-target, 2); 
+            cur += (ll)pow(x[j]-i, 2);
         }
-
-        if (prev == tmp)
-            break;
-
-        if (prev < tmp)
-        {
-            target /= 2;
-        }
-        else
-        {
-            target *= 2;
-        }
-        prev = tmp;
+        ans = min(ans, cur);
     }
 
-    ans = target;
     cout << ans << endl;
 
     return 0;

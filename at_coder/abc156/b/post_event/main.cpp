@@ -28,14 +28,18 @@ int main()
     ll n, k;
     cin >> n >> k;
 
-    ll y(0), cnt(0);
-    for (ll i=0;n>0;i++)
+    ll cnt(0);
+    vector<ll> num;
+    while (n>0)
     {
-        ll z = n%k;
-        y += z*pow(10,i);
-        n = n/k;
-        cnt++;
+        num.push_back(n % k);
+        n /= k, cnt++;
     }
+
+    //sort(num.begin(), num.end());
+    //for (auto i: num)
+    //    cout << i;
+    //cout << endl;
 
     cout << cnt << endl;
 
