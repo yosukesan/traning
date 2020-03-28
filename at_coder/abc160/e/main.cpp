@@ -31,52 +31,36 @@ int main()
 
     ul x,y,a,b,c;
     cin >>x >>y>> a>> b>> c;
-    priority_queue<ul> p;
-    priority_queue<ul> q;
-    priority_queue<ul> r;
+    vector<ul> p(a);
+    vector<ul> q(b);
+    vector<ul> r(c);
+    priority_queue<ul> v;
 
     rep(i,0,a)
-    {
-        ul pp;
-        cin >> pp;
-        p.push(pp);
-    }
+        cin >> p[i];
+
     rep(i,0,b)
-    {
-        ul qq;
-        cin >> qq;
-        q.push(qq);
-    }
+        cin >> q[i];
+
     rep(i,0,c)
-    {
-        ul rr;
-        cin >> rr;
-        r.push(rr);
-    }
+        cin >> r[i];
+
+    sort(p.begin(), p.end(), greater<ul>());
+    sort(q.begin(), q.end(), greater<ul>());
+    sort(r.begin(), r.end(), greater<ul>());
+
+    rep(i,0,x)    
+        v.push(p[i]);
+
+    rep(i,0,y)    
+        v.push(q[i]);
+
+    rep(i,0,c)    
+        v.push(r[i]);
 
     ul ans(0);
-
-    rep(i,0,x)
-    {
-        ul tx = p.top();
-        ul tr = r.top();
-
-        if (tx > tr)
-            ans += tx, p.pop();
-        else
-            ans += tr, r.pop();
-    }
-
-    rep(i,0,y)
-    {
-        ul ty = q.top();
-        ul tr = r.top();
-
-        if (ty > tr)
-            ans += ty, q.pop();
-        else
-            ans += tr, r.pop();
-    }
+    rep(i, 0, x+y)
+        ans += v.top(), v.pop();
 
     cout << ans << endl;
 
