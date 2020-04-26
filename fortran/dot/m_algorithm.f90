@@ -173,8 +173,8 @@ contains
     implicit none
     class(algorithm_real64_t) :: this
     integer :: st, ed
-    integer :: i
-    real(real64) :: vect(st:ed), tmp(st:ed), elem_max, elem_min, accm, c, y, t
+    integer :: i, mid
+    real(real64) :: vect(st:ed), tmp(st:ed), elem_max, elem_min, accm, c, y, t, partial_sum
 
     elem_max = maxval(vect)
     elem_min = minval(vect)
@@ -185,18 +185,27 @@ contains
     accm = 0.0d0
     c = 0.0d0
 
-    forall (i=st:ed)
-      y = tmp(i) - c
-      t = accm + y 
-      c = (t - accm) - y
-      accm = t
-    end forall
-
+    !! negative sum
     do i=st,ed
-      if (vect(i)==0.0d0) cycle
-      if (vect(i)>0.0d0) vect(i) = vect(i) * elem_max
-      if (vect(i)<0.0d0) vect(i) = vect(i) * elem_min
+      mid = i
+      if (tmp(i) >= 0.0d0) exit
+      y = tmp(i) - c
+      t = partial_sum + y 
+      c = (t - partial_sum) - y
+      partial_sum = t
     end do
+    accm = partial_sum * -elem_min
+
+    !! positive sum
+    partial_sum = 0.0d0
+    c = 0.0d0
+    do i=mid,ed
+      y = tmp(i) - c
+      t = partial_sum + y 
+      c = (t - partial_sum) - y
+      partial_sum = t
+    end do
+    accm = accm + partial_sum * elem_max
 
     call this % vector_inv_normalise(st, ed, tmp, elem_max, elem_min)
   end function algorithm_real64_reduce_by_bucket
