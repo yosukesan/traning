@@ -76,7 +76,8 @@ int main()
         cout << "You can win" << endl;
         return 0;
     }
-    cout << "You can lose" << endl;
+
+    cout << "You will lose" << endl;
     
     return 0;
 }
