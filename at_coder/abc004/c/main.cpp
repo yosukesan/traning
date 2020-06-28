@@ -35,7 +35,7 @@ int main()
     ll n;
     cin >>n;
 
-    //n = n % 6;
+    n = n % 30;
 
     vector<ll> c(6);
     iota(c.begin(),c.end(),1);
