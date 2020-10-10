@@ -47,9 +47,8 @@ int main()
         ll s,t,d;
         cin >> s >> t >> d;
         g[s].push_back(Edge(s, t,d));
-
-
     }
+
 
     for (ll i=0; i<V; i++)
     {
@@ -64,5 +63,13 @@ int main()
             }
         }
     }
+
+    for (auto d: dist)
+        if (d == LL_MAX)
+            cout << "INF" << endl;
+        else
+            cout << d << endl;
+        
+
     return 0;
 }

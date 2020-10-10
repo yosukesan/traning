@@ -11,7 +11,7 @@ using Graph = vector<vector<p>>;
 
 int dijkstra(Graph& g, int& s)
 {
-    priority_queue<p, vector<p>, greater<p>> q;
+    priority_queue<p> q;
     vector<int> dist(g.size(), INF);
     dist[s]=0;
     q.push(p(0, s));
